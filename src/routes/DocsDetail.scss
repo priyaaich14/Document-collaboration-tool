@@ -1,0 +1,28 @@
+.editor-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  input {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  textarea {
+    resize: none;
+    flex: 1 1 0;
+  }
+
+  .user-list-wrap {
+    overflow-x: auto;
+    padding: 10px;
+    border: 2px solid #eeeeee;
+    background-color: #eeeeee;
+    ul {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
