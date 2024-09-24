@@ -1,21 +1,21 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidV4 } from "uuid";
 import { authService } from "../../config/firebase";
 import "./Header.scss";
 
 const Header = ({ isLoggedIn, user, setUser, setToken }) => {
-  const history = useHistory();
+  const navigate = useNavigate(); // Using useNavigate instead of useHistory
 
   const clickToLogin = () => {
     if (!isLoggedIn) {
-      history.push("/login");
+      navigate("/login"); // Replacing history.push with navigate
     }
   };
 
   const clickToLogout = () => {
     if (isLoggedIn) {
-      return authService.signOut().then(() => {
+      authService.signOut().then(() => {
         setUser(false);
         setToken("");
       });
@@ -24,7 +24,7 @@ const Header = ({ isLoggedIn, user, setUser, setToken }) => {
 
   const clickToCreateDoc = () => {
     if (isLoggedIn) {
-      history.push(`/docs/${uuidV4()}`);
+      navigate(`/docs/${uuidV4()}`); // Replacing history.push with navigate
     }
   };
 
@@ -43,13 +43,13 @@ const Header = ({ isLoggedIn, user, setUser, setToken }) => {
               </ul>
             </div>
             <div className="button-wrap">
-              <button onClick={clickToCreateDoc}>문서만들기</button>
-              <button onClick={clickToLogout}>로그아웃</button>
+              <button onClick={clickToCreateDoc}>Create Document</button>
+              <button onClick={clickToLogout}>Logout</button>
             </div>
           </>
         ) : (
           <div className="button-wrap">
-            <button onClick={clickToLogin}>로그인</button>
+            <button onClick={clickToLogin}>Login</button>
           </div>
         )}
       </div>

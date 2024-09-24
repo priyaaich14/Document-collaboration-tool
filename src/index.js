@@ -1,16 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import ReactDOM from "react-dom/client"; // Import the modern ReactDOM
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; // Use Routes instead of Route for React Router v6+
 import "./index.scss";
 import App from "./shared/App";
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root")); // Modern ReactDOM method
+
+root.render(
   <React.StrictMode>
     <Router>
-      <Route path="/">
-        <App />
-      </Route>
+      <Routes>
+        <Route path="/" element={<App />} /> {/* Updated Route syntax for React Router v6+ */}
+      </Routes>
     </Router>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );

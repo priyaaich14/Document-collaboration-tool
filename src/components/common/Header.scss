@@ -5,6 +5,7 @@
   height: 60px;
   padding: 0 20px;
   border-bottom: 2px solid #eeeeee;
+  background-color: #fff; /* Optional: Adds a subtle background for a cleaner look */
 
   .right-menu {
     display: flex;
@@ -16,6 +17,9 @@
       ul {
         display: flex;
         align-items: center;
+        margin: 0;
+        padding: 0;
+        list-style: none; /* Remove default list styling */
 
         li {
           margin: 0 8px;
@@ -28,6 +32,8 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
+            object-fit: cover; /* Ensure the image fits well within the container */
+            border: 2px solid #eeeeee; /* Adds a subtle border around the profile picture */
           }
         }
       }
@@ -46,6 +52,16 @@
         height: 30px;
         line-height: 30px;
         padding: 0 6px;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+
+        &:hover {
+          background-color: #f1f1f1; /* Adds a subtle hover effect */
+          border-color: #ccc;
+        }
+
+        &:active {
+          background-color: #e0e0e0;
+        }
       }
     }
   }

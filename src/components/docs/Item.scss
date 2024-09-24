@@ -1,9 +1,27 @@
 .docs-item-container {
   border: 2px solid #eeeeee;
   border-radius: 6px;
-  width: 300px;
+  width: 100%;
+  max-width: 300px; /* Allows flexibility for smaller screens */
   height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* Adds some padding for better spacing */
+  box-sizing: border-box; /* Ensure padding and borders are included in width/height */
+  text-align: center; /* Center align text inside */
+  background-color: #f9f9f9; /* Add a subtle background color for better visual contrast */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+
+  a {
+    text-decoration: none;
+    color: #333; /* Ensure the text color contrasts well */
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  &:hover {
+    transform: translateY(-5px); /* Adds a slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow effect on hover */
+  }
 }

@@ -2,7 +2,19 @@
 .app-container {
   height: 100%;
 }
+
 .main-container {
   width: 100%;
   height: calc(100% - 60px);
+  display: flex;  /* Added flexbox for better layout management */
+  flex-direction: column;  /* Ensures content is stacked vertically */
+}
+
+/* Optionally, ensure the app-container is scrollable */
+.app-container {
+  overflow: hidden; /* Prevents overflow */
+}
+
+.main-container {
+  overflow-y: auto; /* Allows vertical scrolling if content overflows */
 }

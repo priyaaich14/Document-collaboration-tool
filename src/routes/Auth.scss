@@ -1,7 +1,24 @@
 .auth-container {
   width: 100%;
-  height: 100%;
+  height: 100vh; /* Use 100vh to ensure it takes the full viewport height */
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #f7f7f7; /* Optional: Add a subtle background color */
+  padding: 16px; /* Optional: Add some padding to prevent content from touching the edges on small screens */
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  background-color: #4285F4; /* Google Blue color */
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357ae8; /* Darken the button on hover */
 }

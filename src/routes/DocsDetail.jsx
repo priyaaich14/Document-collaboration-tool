@@ -1,12 +1,3 @@
-import React from "react";
-
-// export default () => <span>Home</span>; ???
-
-const Home = () => {
-  return (<span>Home</span>);
-}
-
-export default Home;
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
@@ -18,7 +9,7 @@ const SAVE_DOCS_INTERVAL = 20000;
 const DocsDetail = ({ user, token }) => {
   const textareaRef = useRef();
   const { id: documentId } = useParams();
-  const [socket, setSocket] = useState();
+  const [socket, setSocket] = useState(null); // Ensured initial null value
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [userList, setUserList] = useState([]);
@@ -37,98 +28,103 @@ const DocsDetail = ({ user, token }) => {
     socket.emit("save-document", { title, content, documentId });
   };
 
+  // Set up socket connection
   useEffect(() => {
     const socketInstance = io(process.env.REACT_APP_SOCKET_URL, {
-      auth: {
-        token
-      }
+      auth: { token }
     });
     setSocket(socketInstance);
 
     return () => {
       socketInstance.disconnect();
     };
-  }, []);
+  }, [token]);
 
+  // Handle document loading and joining
   useEffect(() => {
     if (!socket) return;
+
     socket.once("load-document", (document) => {
       setIsMine(user.uniqueId === document.userId);
+      setTitle(document.title);
+      setContent(document.content);
     });
 
     socket.emit("get-document", documentId, user.uniqueId);
     socket.emit("user-join", user);
   }, [socket, documentId, user]);
 
+  // Autosave every 20 seconds
   useEffect(() => {
     if (!socket) return;
 
     const interval = setInterval(() => {
-      socket.emit("save-document", { title, content, documentId });
+      saveDocs();
     }, SAVE_DOCS_INTERVAL);
 
-    return () => {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, [socket, title, content, documentId]);
 
+  // Listen for document changes from other users
   useEffect(() => {
     if (!socket) return;
 
-    const handler = (delta) => {
+    const handleReceiveChanges = (delta) => {
       setContent(delta);
     };
-    socket.on("receive-changes", handler);
+    socket.on("receive-changes", handleReceiveChanges);
 
     return () => {
-      socket.off("receive-changes", handler);
+      socket.off("receive-changes", handleReceiveChanges);
     };
   }, [socket]);
 
+  // Handle selection changes from other users
   useEffect(() => {
     if (!socket) return;
 
-    const handler = ({ displayName, selectionStart, selectionEnd }) => {
-      console.log("changed-position on", { displayName, selectionStart, selectionEnd });
+    const handlePositionChange = ({ displayName, selectionStart, selectionEnd }) => {
+      console.log("Changed position:", { displayName, selectionStart, selectionEnd });
     };
-    socket.on("changed-position", handler);
+    socket.on("changed-position", handlePositionChange);
 
     return () => {
-      socket.off("changed-position", handler);
+      socket.off("changed-position", handlePositionChange);
     };
   }, [socket]);
 
+  // Handle new user joining the document
   useEffect(() => {
     if (!socket) return;
 
-    const handler = ({ displayName }) => {
-      alert(`${displayName}님이 입장하였습니다!`);
-      setUserList([...new Set(userList)]);
+    const handleUserJoin = ({ displayName }) => {
+      alert(`${displayName} has joined!`);
+      setUserList((prevList) => [...new Set([...prevList, displayName])]);
     };
-    socket.on("user-joined", handler);
+    socket.on("user-joined", handleUserJoin);
 
     return () => {
-      socket.off("changed-position", handler);
+      socket.off("user-joined", handleUserJoin);
     };
-  }, [socket, userList]);
+  }, [socket]);
 
   return (
     <div className="editor-container">
       <div className="user-list-wrap">
-        <h2>참여자 리스트</h2>
+        <h2>Participants</h2>
         <ul>
           {userList.length > 0 &&
-            userList.map((user, index) => {
-              return <li key={`${user}_${index}`}>{user}</li>;
-            })}
+            userList.map((user, index) => (
+              <li key={`${user}_${index}`}>{user}</li>
+            ))}
         </ul>
       </div>
       <input
         type="text"
         value={title}
         onChange={handleChangeTitle}
-        placeholder="타이틀을 입력하세요"
-        disabled={!user}
+        placeholder="Enter a title"
+        disabled={!isMine}
       />
       <textarea
         cols="30"
@@ -136,8 +132,8 @@ const DocsDetail = ({ user, token }) => {
         value={content}
         onChange={handleChangeContent}
         ref={textareaRef}
-        placeholder="수정사항을 입력하세요"
-        disabled={!user}
+        placeholder="Enter content"
+        disabled={!isMine}
       />
       <button onClick={saveDocs} disabled={!isMine}>
         SAVE

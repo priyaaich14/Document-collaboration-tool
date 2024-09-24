@@ -1,6 +1,9 @@
 .docs-container {
   padding: 10px;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* Align items to the top, assuming DocsItems might vary in height */
   justify-content: flex-start;
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 16px; /* Add space between the items for better layout */
+  box-sizing: border-box; /* Ensure padding is included in the width/height calculations */
 }

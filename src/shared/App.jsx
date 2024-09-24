@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { authService } from "../config/firebase";
 import { httpRequest } from "../lib/request";
 
@@ -14,7 +13,7 @@ const App = () => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    authService.onAuthStateChanged(async (user) => {
+    const handleAuthChange = async (user) => {
       if (user) {
         try {
           const { token: getToken, user: getUser } = await httpRequest(
@@ -39,6 +38,7 @@ const App = () => {
             });
           }
         } catch (error) {
+          console.error("Login Error:", error); // Added more explicit error logging
           setUser(null);
           setToken("");
         }
@@ -46,25 +46,27 @@ const App = () => {
         setUser(null);
       }
       setInit(true);
-    });
+    };
+
+    const unsubscribe = authService.onAuthStateChanged(handleAuthChange);
+
+    return () => unsubscribe(); // Clean up subscription on unmount
   }, []);
 
+  if (!init) {
+    return <div>Initializing...</div>; // Direct return for simpler conditional rendering
+  }
+
   return (
-    <>
-      {init ? (
-        <div className="app-container">
-          <Header
-            user={user}
-            setUser={setUser}
-            isLoggedIn={Boolean(user)}
-            setToken={setToken}
-          />
-          <AppRouter isLoggedIn={Boolean(user)} user={user} token={token} />
-        </div>
-      ) : (
-        "Initializing..."
-      )}
-    </>
+    <div className="app-container">
+      <Header
+        user={user}
+        setUser={setUser}
+        isLoggedIn={Boolean(user)}
+        setToken={setToken}
+      />
+      <AppRouter isLoggedIn={Boolean(user)} user={user} token={token} />
+    </div>
   );
 };
 
