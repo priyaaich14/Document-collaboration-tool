@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema({
   _id: { type: String, required: true },
@@ -13,4 +13,4 @@ const UserSchema = new mongoose.Schema({
   photoURL: { type: String },
 });
 
-module.exports = mongoose.model("User", UserSchema);
+export default mongoose.model("User", UserSchema);

@@ -1,15 +1,15 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const DocumentSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     content: { type: Object, required: true },
-    userId: { type: String, required: true, unique: true },
+    userId: { type: String, required: true },
   },
   {
-    timestamps: { createdAt: true },
+    timestamps: true, // Adjusted timestamps
   }
 );
 
-module.exports = mongoose.model("Document", DocumentSchema);
+export default mongoose.model("Document", DocumentSchema);

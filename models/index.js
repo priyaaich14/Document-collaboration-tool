@@ -1,2 +1,2 @@
-module.exports.Document = require("./document.model");
-module.exports.User = require("./user.model");
+export { default as Document } from "./document.model.js";
+export { default as User } from "./user.model.js";
