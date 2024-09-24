@@ -1,10 +1,10 @@
-const createError = require("http-errors");
-const { authService, userService } = require("../services");
-const ERROR = require("../constants/error");
+import createError = from "http-errors");
+import { authService, userService } = from "../services");
+import ERROR = from "../constants/error");
 
-const login = async (req, res, next) => {
+import login = async (req, res, next) => {
   try {
-    const { uniqueId, email, displayName, photoURL } = req.body;
+    import { uniqueId, email, displayName, photoURL } = req.body;
     let user = await userService.getUserByEmail(email);
 
     if (!user) {
@@ -17,7 +17,7 @@ const login = async (req, res, next) => {
 
       return res.sendStatus(201);
     }
-    const token = await authService.generateTokenByUser(user);
+    import token = await authService.generateTokenByUser(user);
 
     return res.status(200).json({ user, token });
   } catch (err) {
@@ -25,6 +25,6 @@ const login = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export default {
   login,
 };

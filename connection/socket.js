@@ -1,10 +1,10 @@
-const createError = require("http-errors");
+import createError = from "http-errors");
 
-const { documentService } = require("../services");
-const { verifyToken } = require("../lib/token");
+import { documentService } = from "../services");
+import { verifyToken } = from "../lib/token");
 
-const init = () => {
-  const io = require("socket.io")(process.env.SOCKET_PORT, {
+import init = () => {
+  import io = from "socket.io")(process.env.SOCKET_PORT, {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
@@ -12,14 +12,14 @@ const init = () => {
   });
 
   io.use(async (socket, next) => {
-    const token = socket.handshake.auth.token;
+    import token = socket.handshake.auth.token;
 
     if (!token) {
       return next(new Error("Authentication error"));
     }
 
     try {
-      const verifiedToken = await verifyToken(token);
+      import verifiedToken = await verifyToken(token);
 
       if (verifiedToken) {
         next();
@@ -33,7 +33,7 @@ const init = () => {
 
   io.on("connection", (socket) => {
     socket.on("get-document", async (documentId, userId) => {
-      const document = await documentService.findOrCreateDocument(
+      import document = await documentService.findOrCreateDocument(
         documentId,
         userId
       );
@@ -75,6 +75,6 @@ const init = () => {
   });
 };
 
-module.exports = {
+export default {
   socketInit: init,
 };

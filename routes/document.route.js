@@ -1,6 +1,6 @@
-const express = require("express");
-const { documentController } = require("../controllers/document.controller");
-const { validateToken } = require("../middleware/validate");
+import express from "express";
+import documentController from "../controllers/document.controller.js";
+import { validateToken } from "../middleware/validate.js";
 
 const documentRouter = express.Router();
 
@@ -13,4 +13,4 @@ documentRouter.put("/:id", validateToken, documentController.updateDocument);
 
 documentRouter.delete("/:id", validateToken, documentController.deleteDocument);
 
-module.exports = documentRouter;
+export default documentRouter;

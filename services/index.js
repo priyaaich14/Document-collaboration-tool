@@ -1,3 +1,3 @@
-module.exports.authService = require("./auth.service");
-module.exports.userService = require("./user.service");
-module.exports.documentService = require("./document.service");
+export { default as authService } from "./auth.service.js";
+export { default as userService } from "./user.service.js";
+export { default as documentService } from "./document.service.js";

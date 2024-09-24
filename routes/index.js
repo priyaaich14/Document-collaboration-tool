@@ -1,9 +1,9 @@
-const express = require("express");
+import express = from "express");
 
-const authRoute = require("./auth.route");
-const documentRoute = require("./document.route");
+import authRoute = from "./auth.route");
+import documentRoute = from "./document.route");
 
-const router = express.Router();
+import router = express.Router();
 
 router.get("/", function (req, res, next) {
   res.sendStatus(200);
@@ -12,4 +12,4 @@ router.get("/", function (req, res, next) {
 router.use("/auth", authRoute);
 router.use("/documents", documentRoute);
 
-module.exports = router;
+export default router;

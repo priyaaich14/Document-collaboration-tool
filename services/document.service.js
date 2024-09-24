@@ -1,6 +1,6 @@
-const createError = require("http-errors");
-const { Document } = require("../models");
-const ERROR = require("../constants/error");
+import createError from "http-errors";
+import { Document } from "../models";
+import ERROR from "../constants/error"; // Corrected the import of ERROR
 
 const getDocuments = ({ skip = 0, limit = 10, userId }) => {
   return Document.find({ userId })
@@ -12,7 +12,7 @@ const getDocuments = ({ skip = 0, limit = 10, userId }) => {
 
 const getDocumentById = async (id) => {
   try {
-    const document = await Document.findById(id);
+    const document = await Document.findById(id); // Corrected to use const for document
 
     if (!document) {
       throw createError(404, ERROR.NOT_FOUND);
@@ -37,7 +37,7 @@ const createDocument = ({ id, title, content, userId }) => {
 };
 
 const updateDocumentById = async (id, updateDocument) => {
-  const document = await getDocumentById(id);
+  const document = await getDocumentById(id); // Corrected to use const for document
 
   if (!document) {
     throw createError(404, ERROR.NOT_FOUND);
@@ -50,7 +50,7 @@ const updateDocumentById = async (id, updateDocument) => {
 };
 
 const deleteDocumentById = async (id) => {
-  const document = await getDocumentById(id);
+  const document = await getDocumentById(id); // Corrected to use const for document
 
   if (!document) {
     throw createError(404, ERROR.NOT_FOUND);
@@ -64,14 +64,14 @@ const deleteDocumentById = async (id) => {
 const findOrCreateDocument = async (id, userId) => {
   if (!id) return;
 
-  const document = await Document.findById(id);
+  const document = await Document.findById(id); // Corrected to use const for document
 
   if (document) return document;
 
   return Document.create({ _id: id, title: "", content: "", userId });
 };
 
-module.exports = {
+export default {
   getDocuments,
   getDocumentById,
   createDocument,

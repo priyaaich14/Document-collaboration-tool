@@ -1,10 +1,10 @@
-const { documentService } = require("../services");
+import { documentService } = from "../services");
 
-const getDocuments = async (req, res, next) => {
+import getDocuments = async (req, res, next) => {
   try {
-    const { skip = 0, limit = 10 } = req.query;
-    const { id: userId } = req.user;
-    const documents = await documentService.getDocuments({
+    import { skip = 0, limit = 10 } = req.query;
+    import { id: userId } = req.user;
+    import documents = await documentService.getDocuments({
       skip,
       limit,
       userId,
@@ -16,10 +16,10 @@ const getDocuments = async (req, res, next) => {
   }
 };
 
-const getDocument = async (req, res, next) => {
+import getDocument = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const document = await documentService.getDocumentById(id);
+    import { id } = req.params;
+    import document = await documentService.getDocumentById(id);
 
     return res.status(200).json(document.lean());
   } catch (err) {
@@ -27,9 +27,9 @@ const getDocument = async (req, res, next) => {
   }
 };
 
-const createDocument = async (req, res, next) => {
+import createDocument = async (req, res, next) => {
   try {
-    const document = await documentService.createDocument(req.body);
+    import document = await documentService.createDocument(req.body);
 
     return res.status(201).json(document);
   } catch (err) {
@@ -37,10 +37,10 @@ const createDocument = async (req, res, next) => {
   }
 };
 
-const updateDocument = async (req, res, next) => {
+import updateDocument = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const document = await documentService.updateDocumentById(id, req.body);
+    import { id } = req.params;
+    import document = await documentService.updateDocumentById(id, req.body);
 
     return res.status(200).json(document);
   } catch (err) {
@@ -48,9 +48,9 @@ const updateDocument = async (req, res, next) => {
   }
 };
 
-const deleteDocument = async (req, res, next) => {
+import deleteDocument = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    import { id } = req.params;
     await documentService.deleteDocumentById(id);
 
     return res.sendstatus(204);
@@ -59,7 +59,7 @@ const deleteDocument = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export default {
   getDocuments,
   getDocument,
   createDocument,

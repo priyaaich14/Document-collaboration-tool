@@ -1,4 +1,4 @@
-const { generateToken } = require("../lib/token");
+import { generateToken } from "../lib/token";
 
 const generateTokenByUser = async (user) => {
   const payload = {
@@ -10,6 +10,6 @@ const generateTokenByUser = async (user) => {
   return generateToken(payload);
 };
 
-module.exports = {
+export default {
   generateTokenByUser,
 };
